@@ -13,7 +13,7 @@ export const connection =async () => {
         port: 3306|| process.env.DB_PORT,
         connectionLimit : 10 || process.env.DB_CONNECTION_LIMIT
     });
-    
+
     return pool;
 }
 

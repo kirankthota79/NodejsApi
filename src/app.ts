@@ -34,5 +34,4 @@ export class APP {
         this.app.all('*',(req:Request, res: Response) =>res.status(Code.NOT_FOUND).send(new HttpResponse(Code.NOT_FOUND,Status.NOT_FOUND, this.ROUTE_NOT_FOUND)));
     }
     
-
 }

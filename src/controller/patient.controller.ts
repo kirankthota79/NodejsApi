@@ -1,6 +1,5 @@
 import { Request, Response } from "express"
 import { FieldPacket, OkPacket, ResultSetHeader, RowDataPacket } from "mysql2";
-import Pool from "mysql2/typings/mysql/lib/Pool";
 import { connection } from "../config/mysql.config";
 import { HttpResponse } from "../domain/response";
 import { Code } from "../enum/code.enum";
@@ -49,10 +48,12 @@ export const getPatient = async(req:Request, res:Response):Promise<Response<pati
 export const createPatient = async(req:Request, res:Response):Promise<Response<patients>> =>{
     console.info(`[${new Date().toLocaleString()}] Incoming ${req.method} ${req.originalUrl} Request from ${req.rawHeaders[0]} ${req.rawHeaders[1]}`);
     let Patient:patients = {...req.body}
+    // console.log({...req.body})
+    // console.log(Patient)
     try{
         const pool = await connection();
         const result:ResultSet = await pool.query(QUERY.CREATE_PATIENT , Object.values(Patient));
-        Patient ={ id : (result[0] as ResultSetHeader).insertId,...req.body}        
+        Patient ={ id : (result[0] as ResultSetHeader).insertId,...req.body};    
             return res.status(Code.CREATED)
             .send(new HttpResponse(Code.CREATED,Status.CREATED, 'Patient Created' , Patient));
         }
